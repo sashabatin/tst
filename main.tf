@@ -32,3 +32,30 @@ resource "azurerm_network_interface" "NI1" {
     private_ip_address_allocation = "Dynamic"
   }
 }
+
+resource "azurerm_linux_virtual_machine" "Ubuntu" {
+  name                = "myVM-Ubuntu"
+  location            = azurerm_resource_group.RG1.location
+  resource_group_name = azurerm_resource_group.RG1.name
+  size                = "Standard_DS1_v2"
+
+  admin_username = "adminuser"
+  admin_password = "Password1234!"
+
+  network_interface_ids = [
+    azurerm_network_interface.NI1.id,
+  ]
+
+  os_disk {
+    name              = "myOsDisk-Ubuntu"
+    caching           = "ReadWrite"
+    storage_account_type = "Premium_LRS"
+  }
+
+  source_image_reference {
+    publisher = "Canonical"
+    offer     = "UbuntuServer"
+    sku       = "20.04-LTS"
+    version   = "latest"
+  }
+}
