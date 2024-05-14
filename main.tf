@@ -59,3 +59,5 @@ resource "azurerm_linux_virtual_machine" "Ubuntu" {
     version   = "latest"
   }
 }
+
+
